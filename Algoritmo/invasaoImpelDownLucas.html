@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invasão de Impel Down</title>
+  </head>
+  <body>
+    <p>Quantidade de marinheiros por batalha:</p>
+    <input type="number" id="ipt_numeroMarinheirosPorBatalha" />
+    <p>Quantidade de carne que o luffy tem de reserva:</p>
+    <input type="number" id="ipt_numeroCarne" />
+    <p>Quantidade de batalhas:</p>
+    <input type="number" id="ipt_numeroBatalhas" />
+    <br />
+    <br />
+    <button onclick="batalha()">Batalha de Impel Dowm</button>
+    <div id="div_resultadoBatalha"></div>
+  </body>
+</html>
+<script>
+  function batalha() {
+    div_resultadoBatalha.innerHTML = "";
+    var numeroMarinheirosPorBatalha = Number(
+      ipt_numeroMarinheirosPorBatalha.value
+    );
+    var numeroCarne = Number(ipt_numeroCarne.value);
+    var numeroBatalhas = Number(ipt_numeroBatalhas.value);
+
+    console.log(
+      "Número de marinheiros por batalha: " + numeroMarinheirosPorBatalha
+    );
+    console.log("Número de carnes em reserva: " + numeroCarne);
+    console.log("Número de batalhas: " + numeroBatalhas);
+
+    var barraEnergiaLuffy;
+    var marinheirosDerrotadosBatalha;
+    var luffyDerrotado = 0;
+    var numeroCarneConsumida = 0;
+
+    for (var i = 1; i <= numeroBatalhas; i++) {
+      console.log("Batalha " + i + " iniciada");
+      barraEnergiaLuffy = 100 - 10 * (i - 1);
+      marinheirosDerrotadosBatalha = 0;
+      numeroCarneConsumida = 0;
+      console.log("Barra de energia Luffy: " + barraEnergiaLuffy);
+      for (var j = 1; j <= numeroMarinheirosPorBatalha; j++) {
+        console.log("Luffy derrotou marinheiro " + j);
+        marinheirosDerrotadosBatalha = marinheirosDerrotadosBatalha + 1;
+        barraEnergiaLuffy = barraEnergiaLuffy - 5;
+        console.log(
+          "Barra de energia Luffy depois de derrotar o marinheiro: " +
+            barraEnergiaLuffy
+        );
+        if (barraEnergiaLuffy == 0) {
+          console.log("Luffy precisa de energia !");
+          if (numeroCarne > 0) {
+            numeroCarne = numeroCarne - 1;
+            numeroCarneConsumida = numeroCarneConsumida + 1;
+            barraEnergiaLuffy = 100;
+            console.log("Luffy recuperou energia após comer 1 carne !");
+            console.log("Quantidadde de carne restante: " + numeroCarne);
+          } else {
+            console.log("Luffy morreu !!! ");
+            luffyDerrotado = 1;
+            j = numeroMarinheirosPorBatalha + 1;
+          }
+        }
+      }
+
+      if (luffyDerrotado != 1) {
+        div_resultadoBatalha.innerHTML += `
+      
+--------------------------------------------------------<br>
+
+      ${i}ª Batalha:<br>
+
+Resultado: Luffy saiu vitorioso, comeu ${numeroCarneConsumida} carne(s), derrotou ${marinheirosDerrotadosBatalha} marinheiro(s) e sobrou ${barraEnergiaLuffy} pontos de energia<br>
+
+--------------------------------------------------------<br>
+      
+      `;
+      } else {
+        barraEnergiaLuffy = 0;
+
+        div_resultadoBatalha.innerHTML += `
+      
+      --------------------------------------------------------<br>
+      
+            ${i}ª Batalha:<br>
+      
+      Resultado: Luffy foi derrotado, comeu ${numeroCarneConsumida} carne(s), derrotou ${marinheirosDerrotadosBatalha} marinheiro(s) e sobrou ${barraEnergiaLuffy} pontos de energia<br>
+      
+      --------------------------------------------------------<br>
+            
+            `;
+      }
+    }
+  }
+</script>
